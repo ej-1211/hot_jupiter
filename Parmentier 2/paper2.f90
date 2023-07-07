@@ -92,7 +92,7 @@
 
        OutputFile='PTprofile.dat'
        !OutputFileCSV='PTprofile(20bar)(v0911)(normalized).csv'
-       OutputFileCSV='PTprofile(20bar)(Hd209458b)(1107).csv'
+       OutputFileCSV='PTprofile(20bar)(Hd209458b)(0707).csv'
 
 !!!!!!Model parameters
       G = 6.67E-11
@@ -171,7 +171,7 @@
      write(*,*) 'D=',R_planet/(R_star*((T_star/Tmu)**2))
      write(*,*) 'mstara=',Omega
 
-      Do i=1,N
+      Do i=1,N-1
         rho(i) = P(i)/(R*T(i))
         GAMMA_0(i) = R*T(i)/(mu*cp*sigma(i))-(T(i)-T(i+1))/(sigma(i)-sigma(i+1))
         density(i) = P(i)/(R*T(i))
@@ -290,8 +290,8 @@
        open(unit=40,form='formatted',status='UNKNOWN',file=OutputFile)
        write(40,1400) Teff,Tint,Teq0,mu,f,grav,Gv1,Gv2,Gv3,Gp,Beta,Ab,&
      &ROSS,COEFF,COMP,STAR,CONV,ALBEDO
-       write(40,*),' '
-       write(40,*),' '
+       write(40,*) ' '
+       write(40,*) ' '
        write(40,1500)
        DO i=1,N
          write(40,9800) i,P(i),T(i),Tau(i),Kappa(i),gradad(i),gradrad(i)&
