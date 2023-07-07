@@ -1,0 +1,139 @@
+J/A+A/574/A35    Analytical model for irradiated atmospheres (Parmentier+, 2015)
+================================================================================
+A non-grey analytical model for irradiated atmospheres.
+II: Analytical vs. numerical solutions.
+    Parmentier V., Guillot T., Fortney J., Marley M.
+   <Astron. Astrophys. 574, A35 (2015)>
+   =2015A&A...574A..35P
+================================================================================
+ADC_Keywords: Models, atmosphere ; Planets
+Keywords: radiative transfer - planets and satellites: atmospheres -
+          stars: atmospheres - planet-star interactions
+
+Abstract:
+    This code computes the analytical pressure-temperature profile using
+    the non-grey analytical model of Parmentier & Guillot
+    (2014A&A...562A.133P, Cat. J/A+A/562/A133). Given the different
+    options (explained below) it can use the coefficients from Parmentier
+    et al. (2014A&A...562A.133P, Cat. J/A+A/562/A133) and/or the Rosseland
+    opacity functional form of Valencia et al. (2013) based on the
+    Rosseland opacities of Freedman et al. (2008ApJS..174..504F)
+
+    While using this code for publication, please cite
+    Parmentier & Guillot (2014A&A...562A.133P). If the options
+    "COEFF=AUTO" or "ROSS=AUTO" are used, please cite Parmentier et al.
+    (2014, this paper) and Valencia et al. (2013ApJ...775...10V)
+    respectively.
+
+    The code and all the outputs uses SI units.
+
+Description:
+    The model has six parameters to describe the opacities:
+      - {kappa}(N) is the Rosseland mean opacity at each levels of the
+         atmosphere it does not have to be constant with depth.
+      - Gp is the ratio of the thermal Plank mean opacity to the thermal
+         Rosseland mean opacity.
+      - Beta is the width ratio of the two thermal bands in the frequency
+         space.
+      - Gv1 is the ratio of the visible opacity in the first visible band
+         to the thermal Rosseland mean opacity
+      - Gv2 is the ratio of the visible opacity in the second visible band
+         to the thermal Rosseland mean opacity
+      - Gv3 is the ratio of the visible opacity in the second visible band
+         to the thermal Rosseland mean opacity
+    Each visible band has a fixed width of 1/3.
+
+    Additional parameters describe the physical setting:
+      - Teq0 is the equilibrium temperature of the planet for 0 albedo
+         and full redistribution of energy.
+      - mu is the angle between the vertical direction and the stellar
+         direction. For average profiles set mu=1/sqrt(3)
+      - f is a parameter equal to 0.5 to compute a dayside average profile
+         and 0.25 for planet average profile.
+      - Tint is the internal temperature, given by the internal luminosity
+      - grav is the gravity of the planet
+      - Ab is the Bond albedo of the planet
+      - P(i) are the pressure levels where the temperature is computed.
+      - N is the number of atmospheric levels.
+
+    Several options are available in order to use the coefficients derived
+     in Parmentier et al. (2014A&A...562A.133P, Cat. J/A+A/562/A133):
+
+    ROSS can take the values :
+      - "USER" for a Rosseland mean opacity set by the user
+         {kappa}(nlevels) through the atmosphere.
+      - "AUTO" in order to use {kappa}(P,T), the functional form of the
+         Rosseland mean opacities provided by Valencia et al.
+         (2013ApJ...775...10V) and based on the opacities calculated by
+         Freedman et al. (2008ApJS..174..504F).
+         The value of {kappa} is then recalculated and the initial value set
+         by the user is NOT taken into account.
+
+    COEFF can take the values :
+      - "USER" for coefficients set by the user
+      - "AUTO" for using the fit of the coefficients provided in
+         Parmentier et al. (2014A&A...562A.133P, Cat. J/A+A/562/A133).
+         In that case all the coefficients set by the user are NOT
+         taken into account (apart for the Rosseland mean opacities)
+
+    COMP can take the values (Valid only if COEFF="AUTO") :
+      - "SOLAR" to use the fit of the coefficients for a solar
+         composition atmosphere
+      - "NOTIO" to use the fit of the coefficients without TiO
+
+    STAR can take the value (Valid only if COEFF="AUTO"):
+      - "SUN" to use the fit of the coefficients for a sun-like
+         stellar irradiation
+
+    ALBEDO can thake the value :
+     - "USER" for a user defined albedo
+     - "AUTO" to use the fit of the albedos for solar-composition,
+         clear-sky atmospheres
+    CONV can be either :
+     - "NO" for a pure radiative solution
+     - "YES" for a radiative/convective solution (without taking
+        into account detached convective layers)
+
+    The code and all the outputs uses SI units.
+
+    Installation and use :
+    to install the code use the command "make". To test use "make test".
+    The test should be done with the downloaded version of the code,
+    without any changes. To execute the code, once it has been compiled,
+    type ./NonGrey in the same directory.This will output a file
+    PTprofile.csv with the temperature structure in csv format and a file
+    PTprofile.dat in dat format.
+
+    The input parameters must be changed inside the file paper2.f90. It is
+    necessary to compile the code again each time. The subroutine
+    tprofile2e.f90 can be directly implemented into one's code.
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName    Lrecl    Records    Explanations
+--------------------------------------------------------------------------------
+ReadMe          80          .    This file
+paper2.f90     204        154    Main program
+tprofile.f90   512         40    Subroutine calculating the profile
+valencia.f90   260         58    Rosseland mean opacity fit from
+                                  Valencia et al. (2013ApJ...775...10V)
+Makefile       219         52    Makefile
+test.csv       230        101    Example of output
+--------------------------------------------------------------------------------
+
+See also:
+ J/A+A/562/A133 : Analytical model for irradiated atmospheres (Parmentier+ 2014)
+
+Acknowledgements:
+    Vivien Parmentier, vivien.parmentier(at)yahoo.fr
+
+Licence :
+    This code is licensed under a Creative Commons
+    Attribution-NonCommercial-ShareAlike 3.0 Unported License (see
+    http://creativecommons.org/licenses/by-nc-sa/3.0/ for more details).
+
+References:
+   Parmentier & Guillot, Paper I  2014A&A...562A.133P, Cat. J/A+A/562/A133
+
+================================================================================
+(End)      Vivien Parmentier [OAC], Patricia Vannier [CDS]           28-Nov-2014
