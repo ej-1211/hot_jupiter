@@ -92,7 +92,7 @@
 
        OutputFile='PTprofile.dat'
        !OutputFileCSV='PTprofile(20bar)(v0911)(normalized).csv'
-       OutputFileCSV='PTprofile(20bar)(Hd209458b)(0707).csv'
+       OutputFileCSV='PTprofile(20bar)(WASP19b)(0710).csv'
 
 !!!!!!Model parameters
       G = 6.67E-11
@@ -104,22 +104,22 @@
 
 
 !!!!!!Planet parameters
-      Tint=278.4425!Internal temperature (K)
-      Teq0=1448!!Equilibrium temperature for zero albedo (K) 1448
+      Tint=233.81417979392177!Internal temperature (K)
+      Teq0=2066!!Equilibrium temperature for zero albedo (K) 1448
       f=0.25 !f=0.25 for a planet-average profile, f=0.5 for a dayside average profile
       mu=1/sqrt(3.0) ! Cosine of the irradiation angle. mu=1/sqrt(3) is the mean mu to use for a dayside or a planet average.
 !      Teff0=1000 !Effective temperature for zero albedo
-      R_planet = 15.6 * (6371000) !15.6 Earth Radius (m)
-      M_planet = 232 * (5.9722E24) !kg
+      R_planet = 15.86 * (6371000) !15.6 Earth Radius (m)
+      M_planet = 366.8 * (5.9722E24) !kg
       grav=G*M_planet/(R_planet**2)! gravity (m/s**2) (general version)
 !      grav = 25 !initial setting
       write(*,*)'g=',grav
 
 
 !!!!!!Star parameters
-      M_star = 1.069175195875 *(1988500E24) !kg
-      R_star = 1.19997599424 * (695700E3) !m
-      T_star = 6026.354945475
+      M_star = 0.965 *(1988500E24) !kg
+      R_star = 1.006 * (695700E3) !m
+      T_star = 5616
 
 
 !!!!!Options

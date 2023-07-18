@@ -3,7 +3,8 @@ import numpy as np
 import os
 
 # Read in the data
-filepath = 'hot_jupiter/Parmentier 2/output/PTprofile(20bar)(Hd209458b)(1107).csv'
+# filepath = 'hot_jupiter/Parmentier 2/output/PTprofile(20bar)(Hd209458b)(1107).csv'
+filepath = 'hot_jupiter/Parmentier 2/output/PTprofile(20bar)(WASP19b)(0710).csv'
 filename = os.path.basename(filepath)
 df = pd.read_csv(filepath)
 df = df[:-1]
