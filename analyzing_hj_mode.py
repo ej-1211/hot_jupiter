@@ -6,7 +6,7 @@ import netCDF4 as nc
 
 # =======================
 PLOT_VSF = False
-PLOT_HSF = True
+PLOT_HSF = False
 PRINT_DATA = False
 
 
@@ -45,57 +45,60 @@ if PLOT_VSF:
 # plot the first 5 vertical modes (VSF solutions)
     plot_vsf_modes()
 
-# count the number of lines in the file (each of the data is stored in 23 lines)
-num_data = sum(1 for line in open(filepath_freq))/23
+def process_freq(dataset_path):
 
-# Create a empty dataframe and assign the header
-df = pd.DataFrame(columns=['Vertical_mode_number', 'eps', 'Equivalent Height', 'zonal_wave_number', 'Eigenfrequency of eastward gravity mode', 'Eigenfrequency of westward gravity mode', 'Eigenfrequency of rotaitonal mode'])
+    # count the number of lines in the file (each of the data is stored in 23 lines)
+    num_data = sum(1 for line in open(dataset_path))/23
 
-# Read in the data and store them in a list for every 23 lines
-with open(filepath_freq,'r') as f:
-    data = f.readlines()
+    # Create a empty dataframe and assign the header
+    df = pd.DataFrame(columns=['Vertical_mode_number', 'eps', 'Equivalent Height', 'zonal_wave_number', 'Eigenfrequency of eastward gravity mode', 'Eigenfrequency of westward gravity mode', 'Eigenfrequency of rotaitonal mode'])
 
-    for i in range(int(num_data)):
-        # for "Vertical_mode_number     eps     Equivalent Height zonal_wave_number"
-        float_list = [float(value) for value in data[i*23+1].split()]
-        # for "Eigenfrequency of eastward gravity mode"
-        data_east_gravity = data[i*23+3:i*23+9]
-        Eastward_gravity_list = []
+    # Read in the data and store them in a list for every 23 lines
+    with open(dataset_path,'r') as f:
+        data = f.readlines()
 
-        for line in data_east_gravity:
-            values = line.split()
-            float_values = [float(value) for value in values]
-            Eastward_gravity_list.extend(float_values)
-    
-        # for "Eigenfrequency of westward gravity mode"
-        data_west_gravity = data[i*23+10:i*23+16]
-        Westward_gravity_list = []
+        for i in range(int(num_data)):
+            # for "Vertical_mode_number     eps     Equivalent Height zonal_wave_number"
+            float_list = [float(value) for value in data[i*23+1].split()]
+            # for "Eigenfrequency of eastward gravity mode"
+            data_east_gravity = data[i*23+3:i*23+9]
+            Eastward_gravity_list = []
 
-        for line in data_west_gravity:
-            values = line.split()
-            float_values = [float(value) for value in values]
-            Westward_gravity_list.extend(float_values)
-    
+            for line in data_east_gravity:
+                values = line.split()
+                float_values = [float(value) for value in values]
+                Eastward_gravity_list.extend(float_values)
 
-        # for "Eigenfrequency of rotaitonal mode"
-        data_rotational = data[i*23+17:i*23+23]
-        Rotational_list = []
+          # for "Eigenfrequency of westward gravity mode"
+            data_west_gravity = data[i*23+10:i*23+16]
+            Westward_gravity_list = []
 
-        for line in data_rotational:
-            values = line.split()
-            float_values = [float(value) for value in values]
-            Rotational_list.extend(float_values)
+            for line in data_west_gravity:
+                values = line.split()
+                float_values = [float(value) for value in values]
+                Westward_gravity_list.extend(float_values)
 
-        # store the above data to the dataframe   
-        df = df.append({'Vertical_mode_number': float_list[0], 
-                'eps': float_list[1], 
-                'Equivalent Height': float_list[2], 
-                'zonal_wave_number': float_list[3], 
-                'Eigenfrequency of eastward gravity mode': Eastward_gravity_list, 
-                'Eigenfrequency of westward gravity mode': Westward_gravity_list, 
-                'Eigenfrequency of rotaitonal mode': Rotational_list}, ignore_index=True)
 
+            # for "Eigenfrequency of rotaitonal mode"
+            data_rotational = data[i*23+17:i*23+23]
+            Rotational_list = []
+
+            for line in data_rotational:
+                values = line.split()
+                float_values = [float(value) for value in values]
+                Rotational_list.extend(float_values)
+
+            # store the above data to the dataframe   
+            df = df.append({'Vertical_mode_number': float_list[0], 
+                    'eps': float_list[1], 
+                    'Equivalent Height': float_list[2], 
+                    'zonal_wave_number': float_list[3], 
+                    'Eigenfrequency of eastward gravity mode': Eastward_gravity_list, 
+                    'Eigenfrequency of westward gravity mode': Westward_gravity_list, 
+                    'Eigenfrequency of rotaitonal mode': Rotational_list}, ignore_index=True)
+    return df
     # print(type(data[1]))
+df = process_freq(filepath_freq)
 
 # clear the output terminal
 os.system('clear')
