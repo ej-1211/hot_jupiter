@@ -1,0 +1,187 @@
+
+      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      *                                                               *
+      *                          ALFPACK                              *
+      *                                                               *
+      *                                                               *
+      *     A package of Fortran subprograms for computing            *
+      *                                                               *
+      *         single and double precision, normalized               *
+      *                                                               *
+      *              associated Legendre functions                    *
+      *                                                               *
+      *                    of the first kind                          *
+      *                                                               *
+      *                             by                                *
+      *                                                               *
+      *                      Paul Swarztrauber                        *
+      *                                                               *
+      *                             of                                *
+      *                                                               *
+      *         The National Center for Atmospheric Research          *
+      *                                                               *
+      *                Boulder, Colorado  (80307)  U.S.A.             *
+      *                                                               *
+      *                   which is sponsored by                       *
+      *                                                               *
+      *              The National Science Foundation                  *
+      *                                                               *
+      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+  REVISION HISTORY       January  1992.  All routines were scanned by
+			 Cray compiler cft77 and all instances of stack
+			 variables verified, or SAVE'd consistent with
+			 static usage.
+
+                         November 1985.  The September 1983 package was
+                         revised to include new subroutines ALFK, DALFK,
+                         LFIM, LFIN.
+
+  PURPOSE                ALFPACK is a package containing thirteen user
+                         entry points for computing single and double
+                         precision, normalized associated Legendre
+                         functions of the first kind:
+
+                         PBAR(m,n,theta) = sqrt((2*n+1)*factorial(n-m)
+                         /(2*factorial(n+m)))*sin(theta)**m/(2**n*
+                         factorial(n)) times the (n+m)th derivative of
+                         (x**2-1)**n with respect to x=cos(theta)
+
+                         where n is degree (subscript), m is order
+                         (superscript), and theta is colatitude in
+                         radians.  The functions are orthogonal
+                         polynomials on the surface of the sphere and
+                         are normalized so that the integral of
+                         (PBAR(n,m,theta)**2)*sin(theta) on the interval
+                         theta=0 to theta=pi equals 1.
+                         A brief description of each user entry point
+                         follows.
+
+                         SUBROUTINE ALFK
+                           Computes single precision fourier coefficient
+                           coefficients in the trigonometric series
+                           representation of PBAR(n,m,theta).  These
+                           coefficients are used for calculating PBAR(n,
+                           m,theta) by routines LFP and LFPT in this
+                           package.
+
+                         SUBROUTINE LFP
+                           Uses coefficients computed by routine ALFK
+                           to calculate single precision PBAR(n,m,theta)
+                           at colatitudes theta=(i-1)*pi/(l-1) for i=1,.
+                           ..,l.
+
+                         SUBROUTINE LFPT
+                           Uses coefficients computed by routine
+                           ALFK to compute single precision PBAR(n,m,
+                           theta) at fixed colatitude theta.
+
+                         SUBROUTINE LFIM
+                           Given n, and theta(i) for i=1,...,l
+                           LFIM computes PBAR(m,n,theta(i)) for
+                           m=0,...,n and i=1,...,l. LFIM vectorizes
+                           in the i direction. Lfim and LFIN are
+                           the most efficient routines for large l.
+
+                         SUBROUTINE LFIN
+                           Given nmax, m, and theta(i) for i=1,...,l
+                           LFIN computes PBAR(m,n,theta(i)) for
+                           n=m,...,nmax and i=1,...,l. LFIN vectorizes
+                           in the i direction. Lfim and LFIN are
+                           the most efficient routines for large l.
+
+                         SUBROUTINE LFMA
+                           Given n,i and l, LFMA calculates single
+                           precision PBAR(n,m,theta) for m=0,...,n at
+                           colatitude theta=(i-1)*pi/(l-1).  In this
+                           context, see routine LFMB description
+                           immediately below.
+
+                         SUBROUTINE LFMB
+                           Is similar in purpose to routine LFMA
+                           but is more efficient than LFMA when certain
+                           input parameter values remain fixed on
+                           successive calls.  See description of
+                           routine LFMB for more details.
+
+                         SUBROUTINE LFNA
+                           Calculates single precision PBAR(n,m,
+                           theta) for fixed m, i, l, theta=(i-1)*pi/(l-1
+                           and n=m,...,l-1.  In this context, see
+                           routine LFNB description immediately
+                           below.
+
+                         SUBROUTINE LFNB
+                           Is similar in purpose to routine LFNA
+                           but is more efficient than LFNA when certain
+                           input parameter values remain fixed on
+                           successive calls.  See description of
+                           routine LFNA for more details.
+
+                         SUBROUTINE LFNC
+                           Is similar in purpose to routine LFNA
+                           but permits the calculation of single
+                           precision PBAR(n,m,theta) at user
+                           specified values of theta.
+
+                         SUBROUTINES DALFK, DLFPT, DLFMA
+                           are double precision versions
+                           of the single precision subroutines:
+                           ALFK, LFPT, and LFMA described above
+
+
+  USAGE                  All user entry points are routine subprograms
+
+  I/O                    NONE
+
+  PRECISION              User entry points ALFK, LFP, LFPT, LFIM,
+                         LFIN, LFMA, LFMB, LFNA, LFNB, and LFNC
+                         are single precision.  the remaining user
+                         entry points -- DALFK, DLFPT, and DLFMA,
+                         are double precision.
+
+  REQUIRED LIBRARY       FFTPACK
+
+  LANGUAGE               FORTRAN 77, but breaks the ANSI Standard by 
+                         passing REAL arrays to subroutines and using
+                         them as other-declared arrays.  This causes
+                         data alignment problems on some computers
+                         when the compiled code is executed.
+
+  HISTORY                Written by Paul Swarztrauber, National Center
+                         for Atmospheric Research, July-December 1976.
+                         Documentation revised by Richard Valent
+                         August-September 1978. Revised August 1985.
+
+  PORTABILITY            See LANGUAGE section above.
+
+  INSTALLATION           Unix - A Makefile has been included in this
+                         package to facilitate installation on Unix 
+			 systems.  If you use it, you may want to change
+			 the line:
+			     LIBDIR = .
+			 to reflect the directory where you want to
+			 install ALFPACK.
+
+			 non-Unix - To install the library, compile all
+			 of the provided .f files except Test.f into a 
+			 relocatable binary library in the manner familiar 
+			 to your system.  
+
+  TESTING                Subroutine TALFPK has been supplied as a
+                         partial test of ALFPACK.  We emphasize the
+			 partial nature of this test; it exercises
+			 little of the package and is only meant to be a
+			 simple check of the library installation.  To
+			 use TALFPK, compile file Test.f and load it with
+			 the version of ALFPACK which you want to test.
+
+  REFERENCES             - Paul N. Swarztrauber, "Software for the 
+                           Spectral Analysis of Scalar and Vector 
+                           Functions on the Sphere", in Large Scale 
+                           Scientific Computation (1984) pp. 271-299,
+                           published by Academic Press, Inc.
+  **********************************************************************
+
+                      - end of ALFPACK document -
