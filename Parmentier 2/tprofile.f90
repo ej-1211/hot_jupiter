@@ -82,6 +82,7 @@
       REAL*8 :: Teff0,sigmab
       REAL*8 :: TAURC
       REAL*8 :: Tmu0
+      REAL*8 :: Tirr0
       REAL*8, DIMENSION(N) :: Jv1,Jv2,Jv3
       REAL*8, DIMENSION(N) :: Test1
       REAL*8, DIMENSION(N) :: Test2
@@ -126,6 +127,8 @@
       
       Tmu0=(4*f)**0.25*Teq0 !Tmu0=Teq0 when f=1/4
       Teff0=(Tint**4+Tmu0**4)**0.25
+      write(*,*)'Teff0=',Teff0
+
 !Calculate the Albedo
      if(ALBEDO.eq.'USER') then
       if(Ab<0) then
@@ -156,10 +159,21 @@
        Print*,'ERROR: ALBEDO must be either "AUTO" or "USER"'
        STOP
      endif
-       
-      Tmu=(4*f*(1-Ab))**0.25*Teq0 ! average radiation temperature
+      
+      ! Equation (2) in Parmentier 2015
+      Tirr0 = (4*Teq0**4)**(0.25)
+      write(*,*)'Teq0=',Teq0
+      write(*,*)'Tirr0=',Tirr0
+      Tmu = (mu*(Tirr0**4)*(1-Ab))**(0.25)
+      write(*,*)'Tmu1=',Tmu
+      ! Tmu=(4*f*(1-Ab))**0.25*Teq0 ! average radiation temperature
+      ! write(*,*)'Tmu2=',Tmu
       Teff=(Tint**4+Tmu**4)**0.25
       Tirr = Tmu*(mu**(-0.25))
+      ! Tirr = ((1-Ab)*4*Teq0**4)**0.25
+      write(*,*)'Teff=',Teff
+      write(*,*)'Tirr=',Tirr
+      write(*,*)'Ab=',Ab
 
 ! If the coefficients do not come from the fit, checking the values of the coefficients
       if(COEFF.eq.'USER') then
@@ -828,7 +842,7 @@
 
 
 
-      write(*,*) TAU(i),'difference(Test1,Test2)',Test1(i)-Test2(i)
+      ! write(*,*) TAU(i),'difference(Test1,Test2)',Test1(i)-Test2(i)
 !      write(*,*) i,'difference(Test1,Test3)',Test1(i)-Test3(i)
 
 

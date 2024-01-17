@@ -3,7 +3,7 @@
 !!!!!!INPUT VARIABLES!!!!!!!!!!!!!!!!
       !Model parameters 
       REAL*8 :: Pmin,Pmax !minimal and maximal pressure of the model. 
-      INTEGER, PARAMETER :: N=100 ! Number of levels in the model
+      INTEGER, PARAMETER :: N=60 ! Number of levels in the model
       CHARACTER*150 :: OutputFile ! Name of the output file
       CHARACTER*150 :: OutputFileCSV ! Name of the output file
       !Planet parameters
@@ -92,36 +92,38 @@
 
        OutputFile='PTprofile.dat'
        !OutputFileCSV='PTprofile(20bar)(v0911)(normalized).csv'
-       OutputFileCSV='PTprofile(20bar)(WASP19b)(0710).csv'
+      !  OutputFileCSV='PTprofile(20bar)(WASP19b)(0710).csv'
+       OutputFileCSV='PTprofile(20bar)(Hd209458b)(0103).csv'
 
 !!!!!!Model parameters
-      G = 6.67E-11
+      G = 6.67E-11 !m^3/kg/s^2
       Pmin=1E1 !Minimal pressure (Pa) surface pressure
       Pmax=2E6 ! Maximal pressure (Pa) 乘以10^-5＝bar 2e6
-      R = 8.314/0.00236 !specific gas constant
+      R = 8.314/0.00236 !specific gas constant m^3Pa/K/mole
       cp = R*3.5
       notyet = 123.456
 
 
 !!!!!!Planet parameters
-      Tint=233.81417979392177!Internal temperature (K)
-      Teq0=2066!!Equilibrium temperature for zero albedo (K) 1448
+      Tint=280.8020223944342!Internal temperature (K) 280.8020223944342
+      Teq0=1448!!Equilibrium temperature for zero albedo (K) 1448
       f=0.25 !f=0.25 for a planet-average profile, f=0.5 for a dayside average profile
       mu=1/sqrt(3.0) ! Cosine of the irradiation angle. mu=1/sqrt(3) is the mean mu to use for a dayside or a planet average.
 !      Teff0=1000 !Effective temperature for zero albedo
-      R_planet = 15.86 * (6371000) !15.6 Earth Radius (m)
-      M_planet = 366.8 * (5.9722E24) !kg
+      R_planet = 15.6 * (6371000) !15.6 Earth Radius (m)
+      M_planet = 232 * (5.9722E24) !kg
       grav=G*M_planet/(R_planet**2)! gravity (m/s**2) (general version)
 !      grav = 25 !initial setting
       write(*,*)'g=',grav
 
 
 !!!!!!Star parameters
-      M_star = 0.965 *(1988500E24) !kg
-      R_star = 1.006 * (695700E3) !m
-      T_star = 5616
+      !! Hd209458b
+      M_star = 1.06917519587500 *(1988500E24) !kg
+      R_star = 1.1999759942400 * (695700E3) !m
+      T_star = 6026.3549454750
 
-
+      write(*,*)'T_eq0 calc=', (R_star/(2*R_star*8.81))**0.5*T_star
 !!!!!Options
       ROSS="AUTO" !This can be AUTO or USER. If USER, the Rosseland mean opacity must be provided below for each level. If AUTO, the Rosseland opacities are calculated from the fit of Valencia et al. 2013
       COEFF="AUTO" !This can be AUTO or USER whether you want to use the fit of the coefficients provided in Parmentier et al. 2013 or set your own coefficients.
@@ -167,9 +169,11 @@
      &lpkpt,lpkpr,C1,C3,Hv0)
 
      ! Calculate Omega
-     Omega = sqrt(G*M_star/(R_star*((T_star/Tmu)**2))**3)
-     write(*,*) 'D=',R_planet/(R_star*((T_star/Tmu)**2))
-     write(*,*) 'mstara=',Omega
+!      Omega = sqrt(G*M_star/(R_star*((T_star/Tmu)**2))**3)
+     Omega = sqrt(G*M_star/(R_star*((T_star/(mu**(-0.25)*Tmu))**2))**3)
+     write(*,*) 'D=', (R_star*((T_star/(mu**(-0.25)*Tmu))**2)),'[m]'
+     write(*,*) 'Tirr=',(1-Ab)*T_star*(R_star/(R_star*((T_star/(mu**(-0.25)*Tmu))**2)))**0.5
+     write(*,*) 'mstara(Omega)=',Omega
 
       Do i=1,N-1
         rho(i) = P(i)/(R*T(i))
@@ -177,17 +181,6 @@
         density(i) = P(i)/(R*T(i))
         t_th(i) = 1/((16*density(i)*Kappa(i)*5.670374419E-8*T(i)**4/P(i))*(0.4))
       ENDDO
-
-
-
-!      DO i=1,N
-!        pk(i)=log(kappa(i))-log(kappa(i+1))
-!        pr(i)=log(rho(i))-log(rho(i+1))
-!        pkpr(i) = pk(i)/pr(i)
-!!        pkpr(i)=(log(kappa(i))-log(kappa(i+1)))/(log(rho(i))-log(rho(i+1)))
-!      ENDDO
-!      print *, log(kappa(110))-log(kappa(111)),(log(rho(110))-log(rho(111))),&
-!      &(log(kappa(110))-log(kappa(111)))/(log(rho(110))-log(rho(111))),pk(110),pr(110),pkpr(110)
 
       !Output formats
  1400    format (f10.2,1X,f10.2,1X,f10.2,1X,f10.2,1X,f10.2,1X,f6.2,1X,  &

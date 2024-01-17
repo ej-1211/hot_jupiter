@@ -11,11 +11,11 @@ PRINT_DATA = False
 
 
 # Read in the data
-filepath_freq = 'hot_jupiter/MODES/Data/Output for HD 209458 b/freq_0707.dat'
+filepath_freq = './hot_jupiter/MODES/Data/Output for HD 209458 b/freq_0707.dat'
 filename_freq = os.path.basename(filepath_freq)
-filepath_wn = 'hot_jupiter/MODES/Data/Output for HD 209458 b/wn_folder/hough.wn00000.nc'
+filepath_wn = '/Users/changyichieh/Documents/Hot Jupiter/Hot_Jupiter_Github/hot_jupiter/MODES/Data/Output for HD 209458 b/wn_folder/hough.wn00000.nc'
 wn_0 = nc.Dataset(filepath_wn)
-filepath_vsf = 'hot_jupiter/MODES/Data/vsf.data.nc'
+filepath_vsf = '/Users/changyichieh/Documents/Hot Jupiter/Hot_Jupiter_Github/hot_jupiter/MODES/Data/Output for Earth/vsf.data_Earth.nc'
 vsf = nc.Dataset(filepath_vsf)
 
 
@@ -40,6 +40,13 @@ def plot_vsf_modes():
     plt.xlim(-0.4,0.4)
     plt.yscale('log')
     plt.show()
+
+def get_evht(data_path):
+    data = nc.Dataset(data_path)
+    evht = data['evht'][:]
+    return evht
+
+
 
 if PLOT_VSF:
 # plot the first 5 vertical modes (VSF solutions)
@@ -98,6 +105,7 @@ def process_freq(dataset_path):
                     'Eigenfrequency of rotaitonal mode': Rotational_list}, ignore_index=True)
     return df
     # print(type(data[1]))
+
 df = process_freq(filepath_freq)
 
 # clear the output terminal
@@ -121,9 +129,9 @@ if PRINT_DATA:
 #===================================================================================================
 # enter the desired wavenumber
 # !! Notice that the wavenumber of zonal wave starts from 0, and the wavenumber of meridional/verical starts from 1
-zonal_wave_number = 0           # 0 means the "first" zonal mode but the index is 0 ; 41 in total (0~40)
-vertical_wave_number = 20       # 1 means the first vertical mode ; 0 means nothing ; 20 in total 
-meridional_wave_type = 'WIG'    # 'WIG' means westward inertial gravity mode ; 'EIG' means eastward inertial gravity mode ; 'ROT' means rotational mode each has 30 modes
+zonal_wave_number = 1           # 0 means the "first" zonal mode but the index is 0 ; 41 in total (0~40)
+vertical_wave_number = 5       # 1 means the first vertical mode ; 0 means nothing ; 20 in total 
+meridional_wave_type = 'EIG'    # 'WIG' means westward inertial gravity mode ; 'EIG' means eastward inertial gravity mode ; 'ROT' means rotational mode each has 30 modes
 meridional_wave_number = 1      # 1 means the first meridional mode ; 0 means nothing ; 30 in total
 #===================================================================================================
 
@@ -181,15 +189,19 @@ def plot_hsf(zonal_wave_number,meridional_wave_number,meridional_wave_type):
     plt.title(f'{meridional_wave_type} mode, zonal wave number k={zonal_wave_number}')
     plt.yscale('symlog', linthresh=0.0001)
     plt.xscale('log')
-    # plt.xlim(0.1,10)
-    plt.ylim(-0.001,-1)
+    plt.xlim(0.1,10)
+    # plt.ylim(-0.001,-1)
     plt.grid(True)
     plt.legend()
     plt.show()
 
+
+
+
+
 # exit()
 if PLOT_HSF: 
-    plot_hsf(1,10,'ROT')
+    plot_hsf(zonal_wave_number,meridional_wave_number,meridional_wave_type)
 
 # close the file
 wn_0.close()
