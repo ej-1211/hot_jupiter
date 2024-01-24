@@ -1,4 +1,0 @@
-&gaussian
-   N           = 48
-   gauss_fname = '../../NMF_DATABASE/gauss/gauss48.data'
-/
