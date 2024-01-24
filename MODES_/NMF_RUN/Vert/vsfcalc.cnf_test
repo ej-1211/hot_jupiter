@@ -1,0 +1,17 @@
+&vsfcalc_cnf
+   stab_fname       = '../../NMF_DATABASE/vsf/erainterim_sigma_stability.data'
+   vgrid_fname      = '../../NMF_DATABASE/vsf/erainterim_sigma_levels.data'
+   vsf_fname        = '../../NMF_DATABASE/vsf/vsf.data'
+   equiheight_fname = '../../NMF_DATABASE/vsf/equivalent_height.data'
+   num_vmode        = 40
+   zgrid            = 'Sigma'
+   mp               = 60
+   top              = 1.0
+   hstd             = 8000.0d0
+   given_stability  = .true.
+   given_vsf        = .false.
+   ocheck           = .true.
+/
+
+"equiheight_fname" is a filename for the equivalent height.
+"num_vmode"        is a number of vertical modes.

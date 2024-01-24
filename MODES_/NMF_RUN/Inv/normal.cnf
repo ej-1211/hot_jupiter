@@ -1,0 +1,79 @@
+&normal_cnf
+   nx              = 96
+   ny              = 48
+   nz              = 60
+   nstep           =  1
+   coef3DNMF_fname = '../../NMF_DATABASE/coef/Hough_coeff_'
+   output_3DNMF    = .true.
+   saveps          = .false.
+   savemeant       = .false.
+   ps_fname        = '../../NMF_DATABASE/coef/Ps_'
+   meant_fname     = '../../NMF_DATABASE/coef/Tmean_'
+   saveasci        = .false.
+   afname          = '../../NMF_DATABASE/coef/InputData_'
+   aformat         = '(96E20.4,1x)'
+   savehoughwind   = .false.
+   savenc          = .true.
+   ncname          = '../../NMF_DATABASE/coef/Hough_coeff_'
+/
+
+&time
+   datetype = 'yyyymmddhh'
+   syear    = 2000
+   smon     =    1
+   sday     =    1
+   shour    =    0
+   smins    =   00
+   ssec     =   00
+   slen     =    0
+   eyear    = 2000
+   emon     =    1
+   eday     =    1
+   ehour    =    0
+   emins    =   00
+   esec     =   00
+   elen     =   00
+   dt       =   00
+/
+
+&input_data
+   dataformat_input = 'netcdf'
+   orig             = 'ECMWF'
+   zgrid_type       = 'hybrid'
+   ifile_orog       = ''
+   numoffile        = 1
+   ifile_head(1)    =  '../../NMF_DATABASE/input_data/erainterim_moda_L60_N24_'
+   ifile_head(2)    =  ''
+/
+
+&hough_cnf
+   hough_fname = '../../NMF_DATABASE/hough/hough'
+   num_zw      = 40
+   maxl        = 30
+   my          = 48
+/
+
+"num_zw" is a maximum number of zonal wavenumber, which includes zonal wavenumber 0
+"maxl" is a number of all hough modes (EIG, WIG, Rotational modes)
+
+
+&meridional_grid
+   ygrid_fname = '../../NMF_DATABASE/gauss/gauss48.data'
+/
+"grid_fname" is a filename for the meridional grid
+
+
+&vsf_cnf
+   vsf_fname          = '../../NMF_DATABASE/vsf/vsf.data'
+   vgrid_fname        = '../../NMF_DATABASE/vsf/sigma_profile_60.txt'
+   equiheight_fname   = '../../NMF_DATABASE/vsf/equivalent_height.data'
+   model_level_fname  = '../../NMF_DATABASE/vsf/model_levels_Hd209458b.txt'
+   num_vmode          = 20
+   zgrid              = 'Sigma'
+   mp                 = 60
+   top                = 1.0
+   given_vsf          = .true.
+/
+
+"equiheight_fname" is a filename for the equivalent height.
+"num_vmode"        is a number of vertical modes.

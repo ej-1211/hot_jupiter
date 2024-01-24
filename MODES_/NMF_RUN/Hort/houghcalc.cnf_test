@@ -1,0 +1,39 @@
+&houghcalc_cnf
+  szw        =  0
+  ezw        =  40
+  maxl       =  30
+  my         =  48
+  freq_fname = '../../NMF_DATABASE/hough/freq.data'
+  ks_mode    = 'K'
+  ocheck     = .false.
+/
+
+"ls"         is a zonal wavenumber
+"num_zw"     is a maximum number of zonal wavenumber, which includes zonal wavenumber 0
+"maxl"       is a number of each hough mode (EIG, WIG, Rotational modes)
+"mk"         is a number of grids for meridional direction from EQ to NP
+"freq_fname" is a filename for the eigenfrequency of shalow water equation
+"ks_mode"    is a selection for obtaining the eigenvector of rotational mode in
+             zonal wavenumber 0. 'K' or 'S' should be chosen. The default value is 'K'.
+"ocheck"     is a logical variable. .true. or .false. should be chosen.
+             if .true. is chosen, the information about the orthogonality will be displayed.
+
+&meridional_grid
+   ygrid_fname = '../../NMF_DATABASE/gauss/gauss48.data'
+/
+
+&vsf_cnf
+  equiheight_fname = '../../NMF_DATABASE/vsf/equivalent_height.data'
+  num_vmode        = 20
+/
+"equiheight_fname" is a filename for the equivalent height.
+"num_vmode" is a number of vertical modes.
+
+&output
+  output_gmt  = .false.
+  ofname_gmt  = '../../NMF_DATABASE/hough/hough_gmt'
+  ofname_bin  = '../../NMF_DATABASE/hough/hough'
+  bin_combine = 'zonal'
+/
+"output_gmt" is a logical variable. If .true. is chosen, the 
+"bin_combine" 

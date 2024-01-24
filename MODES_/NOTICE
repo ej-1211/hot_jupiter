@@ -1,0 +1,50 @@
+MODES software version 1.0  (MODES) License
+
+PLEASE READ THIS SOFTWARE LICENSE ("LICENSE") CAREFULLY. USE OF THE SOFTWARE CONSTITUTES ACCEPTANCE OF THIS LICENSE AND TERMS
+
+DATE: 15 March 2022
+
+==============================================================================================================================
+
+THIS LICENSE APPLIES TO THE MODES SOFTWARE THAT IS RELEASED AS OPEN-SOURCE SOFTWARE UNDER THE APACHE LICENSE
+
+==============================================================================================================================
+
+Copyright 2019- Universität Hamburg  
+
+Copyright 2009-2018 University of Ljubljana, Faculty of Mathematics and Physics (UL-FMF). 
+Development of the MODES software version 1.0 as an open-access tool at UL-FMF was funded 
+by the European Research Council, grant agreement no. 280153, 2012-2016.
+
+The computation of the Hough harmonics and the vertical structure functions in the terrain-following 
+sigma coordinate was written after the original code from the National Center for Atmospheric Research 
+(NCAR), Boulder, CO, USA, originally developed by Akira Kasahara. 
+
+
+==============================================================================================================================
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in 
+compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the 
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+==============================================================================================================================
+
+Users who apply MODES resulting in presentations or papers are kindly asked to cite the following documentation paper 
+Žagar, N., Kasahara, A., Terasaki, K., Tribbia, J. and Tanaka, H., 2015: 
+Normal-mode function representation of global 3-D data sets: open-access software for the atmospheric research community. 
+Geoscientific Model Development, 8(4), pp.1169-1195. https://doi.org/10.5194/gmd-8-1169-2015
+
+Besides the above citation, users are furthermore kindly asked to point inquires for MODES to the MODES webpage 
+http://modes.cen.uni-hamburg.de 
+
+Users are also kindly asked to register journal articles and scientific documents that use MODES via email to: modes.mi@uni-hamburg.de and to contribute their MODES-related tool such as visualization of MODES outputs and pre-processing of input data for MODES. 
+
+Citing the Software Documentation Paper and registering your paper(s) will serve to document the scientific impact 
+of the software, which is of vital importance for securing its further development. 
+You should consider this an obligation if you have taken advantage of the software, which represents the end product 
+of a considerable effort by a number of scientists over many years. 
+To contribute to MODES development, please contact Dr. Nedjeljka Žagar, nedjeljka.zagar@uni-hamburg.de.
+
+==============================================================================================================================

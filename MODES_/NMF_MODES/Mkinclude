@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------
+TOPPATH=/tiara/home/ycchang1/data/MODES/NMF_MODES
+#
+INSTALLDIR=$(TOPPATH)/bin
+SHAREDIR=$(TOPPATH)/share
+HOUGHDIR=$(TOPPATH)/hough
+NORMALDIR=$(TOPPATH)/normal
+VSFDIR=$(TOPPATH)/VSF
+MAINDIR=$(TOPPATH)/main
+
+# ------------------------ FOR LINUX ----------------------------
+SYSTEM = LINUX
+#
+
+LAPACK_LIB=$(TOPPATH)/../lapack-3.4.0
+ALFPACK_LIB=$(TOPPATH)/../alfpack
+NETCDF_LIB=/usr/lib
+NETCDF_INCLUDE=/usr/include
+LIBNETCDF_F90=/usr/lib64/libnetcdff.a
+LIBNETCDF=/usr/lib64/libnetcdf.a
+LIBNETCDF_MODULE=/usr/lib64/gfortran/modules
+
+FC = gfortran
+#FFLAGS= -O3 -fopenmp -I$(SHAREDIR) -I$(HOUGHDIR) -I$(NORMALDIR) -I$(VSFDIR) -I$(GRIB_API_INCLUDE) -I$(NETCDF_INCLUDE)
+FFLAGS = -g -Wuninitialized -Wunused -ffree-line-length-none -fbounds-check \
+         -fbacktrace -ffpe-trap=invalid,zero,overflow \
+         -I$(SHAREDIR) -I$(HOUGHDIR) -I$(NORMALDIR) -I$(VSFDIR) \
+         -I$(NETCDF_INCLUDE) -I$(LIBNETCDF_MODULE) #-I$(LIBNETCDF) -I$(LIBNETCDF_F90)
+
+LD = $(FC)
+LFLAGS = -O3 -fopenmp
+
+LFLAGS1 = -I$(SHAREDIR) \
+          -I$(HOUGHDIR) \
+          -I$(NORMALDIR) \
+          -I$(VSFDIR) \
+          -I$(NETCDF_INCLUDE) \
+          -L$(LAPACK_LIB) \
+          -L$(ALFPACK_LIB) \
+          -L$(NETCDF_LIB) \
+          -llapack -lblas -lalfpack -lnetcdf -lnetcdff
+
+INSTALL = install
+
+CLEAN = rm -f *.o *.mod
